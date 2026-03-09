@@ -6,8 +6,8 @@ pub mod momentum;
 
 mod adagrad;
 mod adam;
-mod adan;
 mod adamw;
+mod adan;
 mod base;
 mod grad_accum;
 mod grads;
@@ -20,8 +20,8 @@ mod visitor;
 
 pub use adagrad::*;
 pub use adam::*;
-pub use adan::*;
 pub use adamw::*;
+pub use adan::*;
 pub use base::*;
 pub use grad_accum::*;
 pub use grads::*;

@@ -70,9 +70,7 @@ impl<B: Backend> SimpleOptimizer<B> for Adan {
         grad: Tensor<B, D>,
         state: Option<Self::State<D>>,
     ) -> (Tensor<B, D>, Option<Self::State<D>>) {
-        let (raw_delta, momentum_state) = self
-            .momentum
-            .transform(grad, state.map(|s| s.momentum));
+        let (raw_delta, momentum_state) = self.momentum.transform(grad, state.map(|s| s.momentum));
 
         let decay_rate = lr * (self.weight_decay as f64);
         let delta = raw_delta.mul_scalar(lr);
@@ -215,6 +213,7 @@ impl AdaptiveNesterovMomentum {
 }
 
 impl<B: Backend, const D: usize> AdaptiveNesterovMomentumState<B, D> {
+    #[allow(clippy::wrong_self_convention)]
     fn to_device(mut self, device: &B::Device) -> Self {
         self.exp_avg = self.exp_avg.to_device(device);
         self.exp_avg_sq = self.exp_avg_sq.to_device(device);
@@ -328,26 +327,61 @@ mod tests {
         let state_updated = linear.into_record();
         let weights_expected = TensorData::from([
             [
-                -0.34034607, 0.11747075, 0.38426402, 0.29999772, 0.06599136, 0.04719888,
+                -0.34034607,
+                0.11747075,
+                0.38426402,
+                0.29999772,
+                0.06599136,
+                0.04719888,
             ],
             [
-                0.0644293, -0.031732224, -0.37979296, 0.24165839, 0.18218218, -0.30532277,
+                0.0644293,
+                -0.031732224,
+                -0.37979296,
+                0.24165839,
+                0.18218218,
+                -0.30532277,
             ],
             [
-                -0.038910445, 0.01466812, -0.31599957, 0.2283826, -0.29780683, 0.2929568,
+                -0.038910445,
+                0.01466812,
+                -0.31599957,
+                0.2283826,
+                -0.29780683,
+                0.2929568,
             ],
             [
-                -0.3178632, -0.24129382, -0.39133376, -0.31796312, -0.09605193, 0.14255258,
+                -0.3178632,
+                -0.24129382,
+                -0.39133376,
+                -0.31796312,
+                -0.09605193,
+                0.14255258,
             ],
             [
-                0.31026322, -0.23771758, 0.3519465, -0.19243571, 0.35984334, -0.049992695,
+                0.31026322,
+                -0.23771758,
+                0.3519465,
+                -0.19243571,
+                0.35984334,
+                -0.049992695,
             ],
             [
-                -0.03577819, -0.031879753, 0.10586514, 0.17213862, 0.009403733, 0.36326218,
+                -0.03577819,
+                -0.031879753,
+                0.10586514,
+                0.17213862,
+                0.009403733,
+                0.36326218,
             ],
         ]);
         let bias_expected = TensorData::from([
-            -0.4103378, 0.06837065, -0.116955206, 0.097558975, 0.11655137, -0.006999196,
+            -0.4103378,
+            0.06837065,
+            -0.116955206,
+            0.097558975,
+            0.11655137,
+            -0.006999196,
         ]);
 
         let (weight_updated, bias_updated) = (
