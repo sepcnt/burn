@@ -6,6 +6,7 @@ pub mod momentum;
 
 mod adagrad;
 mod adam;
+mod adan;
 mod adamw;
 mod base;
 mod grad_accum;
@@ -19,6 +20,7 @@ mod visitor;
 
 pub use adagrad::*;
 pub use adam::*;
+pub use adan::*;
 pub use adamw::*;
 pub use base::*;
 pub use grad_accum::*;
